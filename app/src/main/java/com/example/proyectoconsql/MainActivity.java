@@ -102,4 +102,36 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No puede dejar campos vacios"+ID, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void ActualizarTrabajador(View view){
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "Produccion", null, 1);
+        SQLiteDatabase BaseDatos = admin.getWritableDatabase();
+        String ID = ID_Trabajador.getText().toString();
+        String Nombre = Nombretrabajador.getText().toString();
+        String Cargo = Cargotrabajador.getText().toString();
+        if (!Nombre.isEmpty() && !Cargo.isEmpty()){
+            ContentValues DatosUsuario = new ContentValues();
+            DatosUsuario.put("NombreTrabajador", Nombre);
+            DatosUsuario.put("CargoTrabajador", Cargo);
+
+            //Devuelve datos binarios, por eso se ocupa int
+            int cantidad = BaseDatos.update("Trabajadores", DatosUsuario, "ID_Usuario="+ ID, null);
+            if (cantidad == 1){
+                Toast.makeText(this, "El registro se actualizo correctamente", Toast.LENGTH_SHORT).show();
+                //Limpiar datos
+                ID_Trabajador.setText("");
+                Nombretrabajador.setText("");
+                Cargotrabajador.setText("");
+                CargaTrabajadores();
+            }else{
+                Toast.makeText(this, "No se encontro el ID ingresado", Toast.LENGTH_SHORT).show();
+
+            }
+        }else{
+            Toast.makeText(this, "No puede dejar campos vacios", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
 }
