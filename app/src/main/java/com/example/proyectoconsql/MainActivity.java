@@ -134,4 +134,30 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void Eliminartrabajador (View view){
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "Produccion", null, 1);
+        SQLiteDatabase BaseDatos = admin.getWritableDatabase();
+        String ID = ID_Trabajador.getText().toString();
+
+        if (!ID.isEmpty()){
+            int eliminar = BaseDatos.delete("Trabajadores","ID_Usuario =" + ID,null);
+            if (eliminar == 1){
+                Toast.makeText(this, "El trbajador se elimino correctamente", Toast.LENGTH_SHORT).show();
+                ID_Trabajador.setText("");
+                Nombretrabajador.setText("");
+                Cargotrabajador.setText("");
+                CargaTrabajadores();
+
+            }else{
+                Toast.makeText(this, "El id proporcionado no existe.", Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        }else{
+            Toast.makeText(this, "El capo id no puede estar vacio", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 }
